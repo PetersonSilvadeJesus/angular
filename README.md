@@ -27,14 +27,15 @@
 </p>
 
 
-#### 🚧  React Select 🚀 Em construção...  🚧
+#### 🚧  🚀 Em construção...  🚧
 
 ## Documentation
 
 Get started with Angular, learn the fundamentals and explore advanced topics on our documentation website.
 
-- [Getting Started][quickstart]
-- [Architecture][architecture]
+- [Reference Links](https://github.com/angular/angular-cli)
+- [Framework][architecture]
+  + fgd
 - [Components and Templates][componentstemplates]
 - [Forms][forms]
 - [API][api]
@@ -84,8 +85,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ```
 
 ### Requirements
-1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
-2. **npm package manager**: Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions.
+<details>
+  <summary>Click to expand!</summary>
+  
+    1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
+    2. **npm package manager**: Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions.
+</details>
 
 ### Installation
 
