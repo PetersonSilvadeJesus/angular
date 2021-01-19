@@ -35,23 +35,15 @@ Get started with Angular, learn the fundamentals and explore advanced topics on 
 
 - [Reference Links](#reference-links)
 - [Framework](#framework)
-  + [History](framework-history)
-  + [Objective](framework-objective)
-  + [Advantage](framework-advantage)
-  + [Disadvantage](framework-disadvantage)
-  + [AngularJS Life Cycle](angularjs-life-cycle)
-  + [Variable Interpolation](variable-interpolation)
+  + [History](#framework-history)
+  + [Objective](#framework-objective)
+  + [Advantage](#framework-advantage)
+  + [Disadvantage](#framework-disadvantage)
+  + [AngularJS Life Cycle](#angularjs-life-cycle)
+  + [Variable Interpolation](#variable-interpolation)
+  + [Model Layer](#model-layer)
 
-### Advanced
-
-- [Angular Elements][angularelements]
-- [Server Side Rendering][ssr]
-- [Schematics][schematics]
-- [Lazy Loading][lazyloading]
-
-## Development Setup
-
-# App Angular
+### About Project
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.3.
 
@@ -62,19 +54,19 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Framework
 
-##### > Framework Objective
+#### > Framework Objective
 
 ...
 
-##### + Framework Advantage
+#### + Framework Advantage
 
 ...
 
-##### - Framework Disadvantage
+#### - Framework Disadvantage
 
 ...
 
-##### > AngularJS Life Cycle
+#### > AngularJS Life Cycle
 
 1. **The Bootstrap Phase**: 
 2. **The Compilation Phase**: 
