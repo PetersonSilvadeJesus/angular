@@ -1,27 +1,29 @@
-# MyFirstApp
+# App Angular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.3.
-sdf sdf sdfd
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Requirements
+1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
+2. **npm package manager**: Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions.
 
-## Code scaffolding
+### Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+` npm install -g @angular/cli `
 
-## Build
+#### Create a workspace and initial application
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+` ng new my-app `
 
-## Running unit tests
+> The Angular CLI includes a server, so that you can build and serve your app locally.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Navigate to the workspace folder, such as my-app. Run the following command:
 
-## Running end-to-end tests
+` cd my-app`
+` ng serve --open `
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+> The ng serve command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+The --open (or just -o) option automatically opens your browser to http://localhost:4200/.
 
-## Further help
+If your installation and setup was successful, you should see a page similar to the following.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+![Welcome to my-app!](https://angular.io/generated/images/guide/setup-local/app-works.png "Welcome to my-app!")
