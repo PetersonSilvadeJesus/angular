@@ -88,7 +88,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 <details>
   <summary>Click to expand!</summary>
-  
+
+###
 1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
 2. **npm package manager**: Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions.
 </details>
