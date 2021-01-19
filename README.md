@@ -33,12 +33,14 @@
 
 Get started with Angular, learn the fundamentals and explore advanced topics on our documentation website.
 
-- [Reference Links](https://github.com/angular/angular-cli)
-- [Framework][architecture]
-  + fgd
-- [Components and Templates][componentstemplates]
-- [Forms][forms]
-- [API][api]
+- [Reference Links](#reference-links)
+- [Framework](#framework)
+  + [History](framework-history)
+  + [Objective](framework-objective)
+  + [Advantage](framework-advantage)
+  + [Disadvantage](framework-disadvantage)
+  + [AngularJS Life Cycle](angularjs-life-cycle)
+  + [Variable Interpolation](variable-interpolation)
 
 ### Advanced
 
@@ -86,13 +88,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ### Requirements
 
-<details>
-  <summary>Click to expand!</summary>
-
-###
 1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
 2. **npm package manager**: Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions.
-</details>
 
 ### Installation
 
