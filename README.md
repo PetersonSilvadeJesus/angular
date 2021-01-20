@@ -31,15 +31,13 @@
 
 ## Documentation
 
-Get started with Angular, learn the fundamentals and explore advanced topics on our documentation website.
-
 - [Reference Links](#reference-links)
 - [Framework](#framework)
-  + [History](#framework-history)
-  + [Objective](#framework-objective)
-  + [Advantage](#framework-advantage)
-  + [Disadvantage](#framework-disadvantage)
-  + [AngularJS Life Cycle](#angularjs-life-cycle)
+  + [History](#-framework-history)
+  + [Objective](#-framework-objective)
+  + [Advantage](#-framework-advantage)
+  + [Disadvantage](#-framework-disadvantage)
+  + [AngularJS Life Cycle](#-angularjs-life-cycle)
   + [Variable Interpolation](#variable-interpolation)
   + [Model Layer](#model-layer)
 
@@ -50,19 +48,24 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Reference Links
 
 + [Angular.io](https://angular.io/)
++ [Angular.org](https://angular.org/)
 + [An Overview of the AngularJS Life Cycle](https://www.informit.com/articles/article.aspx?p=2271482&seqNum=3)
 
 ### Framework
 
-#### > Framework Objective #### {#anchorName}
+#### > Framework History
 
 ...
 
-#### + Framework Advantage
+#### > Framework Objective
 
 ...
 
-#### - Framework Disadvantage
+#### > Framework Advantage
+
+...
+
+#### > Framework Disadvantage
 
 ...
 
