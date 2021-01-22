@@ -1,3 +1,5 @@
+<ngx-loading-bar color="#ff4081" height="4px"></ngx-loading-bar>
+
 <mat-sidenav-container>
   <mat-sidenav #sidenav role="navigation">
     <mat-nav-list>
@@ -45,12 +47,6 @@
               <span class="label">Statistic</span>
             </a>
           </li>
-          <li>
-            <a mat-flat-button color="primary" [routerLink]="['/add-cases']">
-              <mat-icon class="icon">add_alert</mat-icon>
-              <span class="label">Add Case</span>
-            </a>
-          </li>
         </ul>
       </div>
     </mat-toolbar>
@@ -58,4 +54,6 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

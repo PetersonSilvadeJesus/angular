@@ -15,7 +15,7 @@ const routes: Routes = [
     {
         path: 'cases',
         component: CasesComponent,
-        //data: { title: 'List of Cases' }
+        data: { title: 'List of Cases' }
     },
     {
         path: 'cases-details/:id',
