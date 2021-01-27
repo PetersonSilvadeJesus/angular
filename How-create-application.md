@@ -1,3 +1,15 @@
+# Documentation
+
+- [Requirements](#requirements)
+- [Step #1. Create a New Angular APP](#step-1-create-a-new-angular-app)
+- [Step #2. Add Routing and Navigation](#step-2-add-routing-and-navigation)
+- [Step #3. Add Models](#step-3-add-models)
+- [Step #4. Add Service HTTP](#step-4-add-service-http)
+- [Step #5. Install Angular Material](#step-5-install-angular-material)
+- [Step #6. Add Navbar](#step-6-add-navbar)
+- [Step #7. Display List Using Angular Material](#step-7-display-list-using-angular-material)
+- 
+
 ### Requirements
 
 1. **Node.js**: Angular requires a current, active LTS, or maintenance LTS version of Node.js.
@@ -256,7 +268,7 @@ Add the functions for all CRUD (create, read, update, delete) REST API call of c
   }
 ```
 
-## Step #5. Install Angular material
+## Step #5. Install Angular Material
 
 Next, for the user interface (UI) we will use Angular Material and CDK. There's a CLI for generating a Material component like Table as a component. Type this command to install Angular Material (@angular/material).
 
@@ -422,4 +434,162 @@ Edit and add in file `src/app/app.component.html`:
 <div class="container">
   <router-outlet></router-outlet>
 </div>
+```
+
+Open and edit `src/app/app.component.css` then replace all css codes with this:
+
+```css
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  
+  a:hover,
+  a:active {
+    color: lightgray;
+  }
+  
+  .navigation-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+  .icon {
+    display: inline-block;
+    height: 30px;
+    margin: 0 auto;
+    padding-right: 5px;
+    text-align: center;
+    vertical-align: middle;
+    width: 15%;
+  }
+  
+  .label {
+    display: inline-block;
+    line-height: 30px;
+    margin: 10px;
+    width: 75%;
+  }
+
+  .container {
+    padding: 20px;
+  }
+```
+
+## Step #7. Display List using Angular Material
+
+For that, open and edit `src/app/cases/cases.component.ts` then replace to this import.
+
+```js
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ApiService } from '../services/api.service';
+import { Cases } from '../models/cases';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+```
+
+Next, inject the API Service to the constructor.
+
+```js
+constructor(private api: ApiService) { }
+```
+
+Declare the variables of Angular Material Table Data Source before the constructor.
+
+```js
+displayedColumns: string[] = ['name', 'age', 'status'];
+data: Cases[] = [];
+isLoadingResults = true;
+```
+
+Add variables to support paginator and sortable:
+
+```js
+@ViewChild(MatSort) sort: MatSort;
+@ViewChild(MatPaginator) paginator: MatPaginator;
+```
+
+Modify the `ngOnInit` function to get a list of cases immediately.
+
+```js
+ngOnInit(): void {
+  this.api.getCases()
+  .subscribe((res: any) => {
+    this.data = new MatTableDataSource(res);
+    this.data.sort = this.sort;
+    this.data.paginator = this.paginator;
+    
+    this.isLoadingResults = false;
+  }, err => {
+    console.log(err);
+    this.isLoadingResults = false;
+  });
+}
+```
+
+Next, open and edit `src/app/cases/cases.component.html` then replace all HTML tags with this Angular Material tags.
+
+```html
+<div class="example-container ">
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="button-row">
+        <a mat-flat-button color="primary" [routerLink]="['/add-cases']">
+            <mat-icon>add</mat-icon> Cases
+        </a>
+        <a mat-flat-button color="accent" [routerLink]="['/cases-stat']">
+            <mat-icon>bar_chart</mat-icon> Statistic
+        </a>
+    </div>
+    <div class="mat-elevation-z8" style="margin-top: 15px">
+        <table mat-table [dataSource]="data" class="example-table" matSort matSortActive='name' matSortDirection="asc">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let row"> 1 </td>
+            </ng-container>
+
+            <!-- Cases Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+
+            <!-- Cases Age Column -->
+            <ng-container matColumnDef="age">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+                <td mat-cell *matCellDef="let row">{{row.age}}</td>
+            </ng-container>
+
+            <!-- Cases Status Column -->
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let row">{{row.status}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [routerLink]="['/cases-details/', row._id]">
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+```
+
+Next, open and edit `src/app/cases/cases.component.css` then replace all CSS.
+
+```css
+/* Structure */
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
 ```
