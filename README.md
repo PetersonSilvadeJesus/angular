@@ -40,7 +40,7 @@
   + [AngularJS Life Cycle](#-angularjs-life-cycle)
   + [Variable Interpolation](#variable-interpolation)
   + [Model Layer](#model-layer)
-- [Application Creation](/blob/master/How-create-application.md)
+- [Application Creation](/How-create-application.md)
 
 ### About Project
 
