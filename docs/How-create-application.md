@@ -18,8 +18,17 @@
 
 <table>
   <tr>
-    <td style="text-align: center"><img src="images/table-list.png"/><br><span>Table List Data</span></td>
-    <td style="text-align: center"><img src="images/table-list.png"/><br><span style="text-align: center">Table List Data</span></td>
+    <td style="text-align: center"><img src="images/table-list.png"/><br><span>List of Corona Virus Cases</span></td>
+    <td style="text-align: center"><img src="images/add-case.png"/><br><span style="text-align: center">Add Corona Virus Cases </span></td>
+    <td style="text-align: center"><img src="images/edit-case.png"/><br><span style="text-align: center">Edit Corona Virus Cases</span></td>
+  </tr>
+  <tr>
+    <td style="text-align: center"><img src="images/view-case.png"/><br><span>View Corona Virus Cases</span></td>
+    <td style="text-align: center"><img src="images/static-dead.png"/><br><span style="text-align: center">Corona Virus Dead Cases Statistic</span></td>
+    <td style="text-align: center"><img src="images/static-positive.png"/><br><span style="text-align: center">Corona Virus Positive Cases Statistic</span></td>
+  </tr>
+  <tr>
+    <td style="text-align: center"><img src="images/static-recovered.png"/><br><span>Corona Virus Recovered Cases Statistic</span></td>
   </tr>
 </table>
 
