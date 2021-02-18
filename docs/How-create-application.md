@@ -1,5 +1,6 @@
 # How To Create Application In Angular 11
 
+- [Demos](#demos)
 - [Requirements](#requirements)
 - [Step #1. Create a New Angular App](#step-1-create-a-new-angular-app)
 - [Step #2. Add Routing and Navigation](#step-2-add-routing-and-navigation)
