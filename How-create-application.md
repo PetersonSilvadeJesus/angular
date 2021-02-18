@@ -1314,6 +1314,8 @@ Finally, give it a little style by modify `src/app/cases-stat/cases-stat.compone
 
 ## Step #12. Deploy Application With Docker
 
+Let's create a `Dockerfile` at the root of the project, open and edit it with the following code.
+
 ```Dockerfile
 # Image
 FROM node:alpine
@@ -1327,12 +1329,37 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /app/package.json
 RUN yarn install
+# install angular in path
 RUN npm install -g @angular/cli
 
 # add app
 COPY . /app
 
-# start app
+# start app in the docker container
 CMD ng serve --host 0.0.0.0
 ```
 
+We will pull the NodeJS image as the base of our angular application `FROM node:alpine`, then we set the `app` folder as the application's working folder `WORKDIR /app`, we add the NodeJS to the container path `ENV PATH /app/node_modules/.bin:$PATH`, we copy the package.json file to the app folder `COPY package.json /app/package.json`, we install the project dependencies using Yarn `RUN yarn install`, we install the angular globally in the container `RUN npm install -g @angular/cli`, we copy all the other project files to the app workbook `COPY . /app` and then we start the angular server on port 80 with the command `CMD ng serve --host 0.0.0.0`.
+
+After that, our customized image is created.
+
+Next, create `docker-compose.yml` at the root of the project, open and edit with the following code.
+
+```YAML
+version: "3.5"
+
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "4200:4200"
+    volumes:
+      - "/app/node_modules"
+      - "./:/app"
+```
+
+This will create a container running our image on port 4200.
+
+# Voialá!!!!!  :stuck_out_tongue_closed_eyes: :heart: :metal:
+### Open 0.0.0.0:4200 and the application will be beautiful!!! :hamster:
