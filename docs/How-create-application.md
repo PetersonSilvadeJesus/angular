@@ -18,8 +18,8 @@
 
 <table>
   <tr>
-    <td><img src="images/table-list.png"/><br><span style="text-align: center">Table List Data</span></td>
-    <td><img src="images/table-list.png"/><br><span style="text-align: center">Table List Data</span></td>
+    <td style="text-align: center"><img src="images/table-list.png"/><br><span>Table List Data</span></td>
+    <td style="text-align: center"><img src="images/table-list.png"/><br><span style="text-align: center">Table List Data</span></td>
   </tr>
 </table>
 
