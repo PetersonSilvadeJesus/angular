@@ -1359,6 +1359,18 @@ services:
       - "./:/app"
 ```
 
+Now, we have to build the container using this command.
+
+```console
+$ docker-compose up -d
+```
+
+If you want to rebuild the image, add the `--build` option by running the following command
+
+```console
+$ docker-compose up -d --build
+```
+
 This will create a container running our image on port 4200.
 
 # Voialá!!!!!  :stuck_out_tongue_closed_eyes: :heart: :metal:
