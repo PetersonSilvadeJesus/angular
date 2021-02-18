@@ -8,7 +8,11 @@
 - [Step #5. Install Angular Material](#step-5-install-angular-material)
 - [Step #6. Add Navbar](#step-6-add-navbar)
 - [Step #7. Display List Using Angular Material](#step-7-display-list-using-angular-material)
-- 
+- [Step #8. Add a Data using Angular Material Form](#step-8-add-a-data-using-angular-material-form)
+- [Step #9. Edit a Data using Angular Material Form](#step-9-edit-a-data-using-angular-material-form)
+- [Step 10. Show and Delete Data Details using Angular Material](#step-10-show-and-delete-data-details-using-angular-material)
+- [Step 11. Show Statistic using Ng2Charts and Chart.js](#step-11-show-statistic-using-ng2charts-and-chart-js)
+- [Step 12. Deploy Application With Docker](#step-12-deploy-application-with-docker)
 
 ### Requirements
 
@@ -593,3 +597,742 @@ th.mat-sort-header-sorted {
   color: black;
 }
 ```
+
+## Step #8. Add a Data using Angular Material Form
+
+To create a form for adding a Coronavirus case, open and edit `src/app/add-cases/add-cases.component.ts` then add these imports.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
+import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+```
+
+Inject the above modules to the constructor.
+
+```js
+constructor(private router: Router, private api: ApiService, private formBuilder: FormBuilder) { }
+```
+
+Declare variables for the Form Group and all of the required fields inside the form before the constructor
+
+```js
+  casesForm: FormGroup;
+  name = '';
+  gender = '';
+  age: number = null;
+  address = '';
+  city = '';
+  country = '';
+  status = '';
+  statusList = ['Positive', 'Dead', 'Recovered'];
+  genderList = ['Male', 'Female'];
+  isLoadingResults = false;
+  matcher = new MyErrorStateMatcher();
+```
+
+Add initial validation for each field.
+
+```js
+  ngOnInit(): void {
+    this.casesForm = this.formBuilder.group({
+      name: new FormControl('', [Validators.required]),
+      gender: new FormControl('', [Validators.required]),
+      age: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      country: new FormControl('', [Validators.required]),
+      status: new FormControl('', [Validators.required]),
+    });
+  }
+```
+
+Create a function for submitting or POST cases form.
+
+```js
+  onFormSubmit() {
+    this.isLoadingResults = true;
+    this.api.addCases(this.casesForm.value)
+      .subscribe((res: any) => {
+          const id = res._id;
+          this.isLoadingResults = false;
+          this.router.navigate(['/cases-details', id]);
+        }, (err: any) => {
+          console.log(err);
+          this.isLoadingResults = false;
+        });
+  }
+```
+
+Create a new class before the main class `@Components`.
+
+```js
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+```
+
+Next, open and edit `src/app/add-cases/add-cases.component.html` then replace all HTML tags with this.
+
+```html
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+        *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/cases']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="casesForm" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" formControlName="name"
+                [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!casesForm.get('name').valid && casesForm.get('name').touched">Please enter Name</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option *ngFor="let gl of genderList" [value]="gl">
+            {{gl}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!casesForm.get('gender').valid && casesForm.get('gender').touched">Please choose Gender</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Age</mat-label>
+        <input matInput type="number" placeholder="Age" formControlName="age"
+                [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!casesForm.get('age').valid && casesForm.get('age').touched">Please enter Age</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Address</mat-label>
+        <input matInput placeholder="Address" formControlName="address"
+                [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!casesForm.get('address').valid && casesForm.get('address').touched">Please enter Address</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>City</mat-label>
+        <input matInput placeholder="City" formControlName="city"
+                [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!casesForm.get('city').valid && casesForm.get('city').touched">Please enter City</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Country</mat-label>
+        <input matInput placeholder="Country" formControlName="country"
+                [errorStateMatcher]="matcher">
+        <mat-error>
+          <span *ngIf="!casesForm.get('country').valid && casesForm.get('country').touched">Please enter Country</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let sl of statusList" [value]="sl">
+            {{sl}}
+          </mat-option>
+        </mat-select>
+        <mat-error>
+          <span *ngIf="!casesForm.get('status').valid && casesForm.get('status').touched">Please select Status</span>
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button type="submit" [disabled]="!casesForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+      </div>
+    </form>
+  </mat-card>
+</div>
+```
+
+Finally, open and edit `src/app/add-cases/add-cases.component.css` then add this CSS codes.
+
+```css
+/* Structure */
+.example-container {
+  position: relative;
+  padding: 5px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-full-width:nth-last-child(0) {
+  margin-bottom: 10px;
+}
+
+.button-row {
+  margin: 10px 0;
+}
+
+.mat-flat-button {
+  margin: 5px;
+}
+```
+
+## Step #9. Edit a Data using Angular Material Form
+
+We already put an edit button inside the Cases Details component for the call Edit page. Now, open and edit `src/app/edit-cases/edit-cases.component.ts` then add these imports.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ApiService } from '../services/api.service';
+import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+```
+
+Inject the above modules to the constructor.
+
+```js
+constructor(private router: Router, private route: ActivatedRoute, private api: ApiService, private formBuilder: FormBuilder) { }
+```
+
+Declare the Form Group variable and all of the required variables for the cases-form before the constructor.
+
+```js
+  casesForm: FormGroup;
+  _id = '';
+  name = '';
+  gender = '';
+  age: number = null;
+  address = '';
+  city = '';
+  country = '';
+  status = '';
+  statusList = ['Positive', 'Dead', 'Recovered'];
+  genderList = ['Male', 'Female'];
+  isLoadingResults = false;
+  matcher = new MyErrorStateMatcher();
+```
+
+Next, add validation for all fields when the component is initiated.
+
+```js
+ngOnInit(): void {
+  this.getCasesById(this.route.snapshot.params.id);
+  this.casesForm = this.formBuilder.group({
+    name: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    age: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    city: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required]),
+    status: new FormControl('', [Validators.required]),
+  });
+}
+```
+
+Create a function for getting cases data that filled to each form field.
+
+```js
+  getCasesById(id: any) {
+    this.api.getCasesById(id).subscribe((data: any) => {
+      this._id = data._id;
+      this.casesForm.setValue({
+        name: data.name,
+        gender: data.gender,
+        age: data.age,
+        address: data.address,
+        city: data.city,
+        country: data.country,
+        status: data.status
+      });
+    });
+  }
+```
+
+Create a function to update the case changes.
+
+```js
+  onFormSubmit() {
+    this.isLoadingResults = true;
+    this.api.updateCases(this._id, this.casesForm.value)
+      .subscribe((res: any) => {
+          const id = res._id;
+          this.isLoadingResults = false;
+          this.router.navigate(['/cases-details', id]);
+        }, (err: any) => {
+          console.log(err);
+          this.isLoadingResults = false;
+        }
+      );
+  }
+```
+
+Add a function for handling the show cases details button.
+
+```js
+  casesDetails() {
+    this.router.navigate(['/cases-details', this._id]);
+  }
+```
+
+Create a new class before the main class `@Components`.
+
+```js
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+```
+
+Next, open and edit `src/app/edit-cases/edit-cases.component.html` then replace all HTML tags with this.
+
+```html
+  <div class="example-container mat-elevation-z8">
+    <div class="example-loading-shade"
+          *ngIf="isLoadingResults">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="button-row">
+        <a mat-flat-button color="primary" (click)="casesDetails()"><mat-icon>info</mat-icon></a>
+    </div>
+    <mat-card class="example-card">
+      <form [formGroup]="casesForm" (ngSubmit)="onFormSubmit()">
+        <mat-form-field class="example-full-width">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Name" formControlName="name"
+                  [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!casesForm.get('name').valid && casesForm.get('name').touched">Please enter Name</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option *ngFor="let gl of genderList" [value]="gl">
+              {{gl}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!casesForm.get('gender').valid && casesForm.get('gender').touched">Please choose Gender</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Age</mat-label>
+          <input matInput type="number" placeholder="Age" formControlName="age"
+                  [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!casesForm.get('age').valid && casesForm.get('age').touched">Please enter Age</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Address</mat-label>
+          <input matInput placeholder="Address" formControlName="address"
+                  [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!casesForm.get('address').valid && casesForm.get('address').touched">Please enter Address</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>City</mat-label>
+          <input matInput placeholder="City" formControlName="city"
+                  [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!casesForm.get('city').valid && casesForm.get('city').touched">Please enter City</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Country</mat-label>
+          <input matInput placeholder="Country" formControlName="country"
+                  [errorStateMatcher]="matcher">
+          <mat-error>
+            <span *ngIf="!casesForm.get('country').valid && casesForm.get('country').touched">Please enter Country</span>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let sl of statusList" [value]="sl">
+              {{sl}}
+            </mat-option>
+          </mat-select>
+          <mat-error>
+            <span *ngIf="!casesForm.get('status').valid && casesForm.get('status').touched">Please select Status</span>
+          </mat-error>
+        </mat-form-field>
+        <div class="button-row">
+          <button type="submit" [disabled]="!casesForm.valid" mat-flat-button color="primary"><mat-icon>save</mat-icon></button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+```
+
+Finally, open and edit `src/app/edit-cases/edit-cases.component.css` then add these lines of CSS codes.
+
+```css
+/* Structure */
+  .example-container {
+    position: relative;
+    padding: 5px;
+  }
+  
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-full-width:nth-last-child(0) {
+    margin-bottom: 10px;
+  }
+  
+  .button-row {
+    margin: 10px 0;
+  }
+  
+  .mat-flat-button {
+    margin: 5px;
+  }
+```
+
+## Step #10. Show and Delete Data Details using Angular Material
+
+On the list page, there are 2 buttons to navigate to the Details and Statistic page. For, Details page the button action also sends an ID parameter. Next, open and edit `src/app/cases-details/cases-details.component.ts` then add these lines of imports.
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../services/api.service';
+import { Cases } from '../models/cases';
+```
+
+Inject the above modules to the constructor.
+
+```js
+constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) { }
+```
+
+Declare the variables before the constructor for hold cases data that get from the API.
+
+```js
+cases: Cases = { _id: '', name: '', gender: '', age: null, address: '', city: '', country: '', status: '', updated: null };
+isLoadingResults = true;
+```
+
+Add a function for getting Cases data from the API.
+
+```js
+getCasesDetails(id: string) {
+  this.api.getCasesById(id)
+    .subscribe((data: any) => {
+      this.cases = data;
+      console.log(this.cases);
+      this.isLoadingResults = false;
+    });
+}
+```
+
+Call that function when the component is initiated.
+
+```js
+ngOnInit(): void {
+  this.getCasesDetails(this.route.snapshot.params.id);
+}
+```
+
+Add this function to delete a case.
+
+```js
+deleteCases(id: any) {
+  this.isLoadingResults = true;
+  this.api.deleteCases(id)
+    .subscribe(res => {
+        this.isLoadingResults = false;
+        this.router.navigate(['/cases']);
+      }, (err) => {
+        console.log(err);
+        this.isLoadingResults = false;
+      }
+    );
+}
+```
+
+For the view, open and edit `src/app/cases-details/cases-details.component.html` then replace all HTML tags with this.
+
+```html
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+        *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/cases']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>{{cases.name}}</h2></mat-card-title>
+      <mat-card-subtitle>{{cases.age}} year old</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>Gender:</dt>
+        <dd>{{cases.gender}}</dd>
+        <dt>Address:</dt>
+        <dd>{{cases.address}}</dd>
+        <dt>City:</dt>
+        <dd>{{cases.city}}</dd>
+        <dt>Country:</dt>
+        <dd>{{cases.country}}</dd>
+        <dt>Status:</dt>
+        <dd><h2>{{cases.status}}</h2></dd>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" [routerLink]="['/edit-cases', cases._id]"><mat-icon>edit</mat-icon> Cases</a>
+      <a mat-flat-button color="warn" (click)="deleteCases(cases._id)"><mat-icon>delete</mat-icon> Cases</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+```
+
+Finally, open and edit `src/app/cases-details/cases-details.component.css` then add this lines of CSS codes.
+
+```css
+/* Structure */
+.example-container {
+  position: relative;
+  padding: 5px;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-flat-button {
+  margin: 5px;
+}
+```
+
+## Step #11. Show Statistic using Ng2Charts and Chart.js
+
+We will use a bar chart to display the statistic of Coronavirus cases. So, we need to install Ng2Charts and Chart.js modules by type this command.
+
+```console
+$ npm i --save ng2-charts chart.js
+```
+
+Or via Yarn
+
+```console
+$ yarn add ng2-charts chart.js
+```
+
+Next, open and edit `src/app/app.module.ts` then add this import of ng2-charts.
+
+```js
+import { ChartsModule } from 'ng2-charts';
+```
+
+Add this module to the @NgModule imports.
+
+```js
+imports: [
+  ...
+  ChartsModule
+],
+```
+
+Next, open and edit `src/app/cases-stat/cases-stat.component.ts` then add these imports of chart.js ChartOptions, ChartType, ChartDataSets, ng2-charts Label, ApiService, and Statistic data type. 
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
+import { ApiService } from '../services/api.service';
+import { Statistic } from '../models/statistic';
+```
+
+Declare these required variables before the constructor for building a bar chart.
+
+```js
+stats: Statistic[] = [];
+label = 'Positive';
+isLoadingResults = true;
+barChartOptions: ChartOptions = {
+  responsive: true,
+};
+barChartLabels: Label[] = [];
+barChartType: ChartType = 'bar';
+barChartLegend = true;
+barChartPlugins = [];
+barChartData: ChartDataSets[] = [{ data: [], backgroundColor: [], label: this.label }];
+```
+
+Inject ApiService to the constructor.
+
+```js
+constructor(private api: ApiService) { }
+```
+
+Add a function to load statistic data from REST API then implement it as a bar chart.
+
+```js
+getStatistic(status: string) {
+  this.barChartData = [{ data: [], backgroundColor: [], label: this.label }];
+  this.barChartLabels = [];
+  this.api.getStatistic(status)
+  .subscribe((res: any) => {
+    this.stats = res;
+    const chartdata: number[] = [];
+    const chartcolor: string[] = [];
+    this.stats.forEach((stat) => {
+      this.barChartLabels.push(stat._id.date);
+      chartdata.push(stat.count);
+      if (this.label === 'Positive') {
+        chartcolor.push('rgba(255, 165, 0, 0.5)');
+      } else if (this.label === 'Dead') {
+        chartcolor.push('rgba(255, 0, 0, 0.5)');
+      } else {
+        chartcolor.push('rgba(0, 255, 0, 0.5)');
+      }
+    });
+    this.barChartData = [{ data: chartdata, backgroundColor: chartcolor, label: this.label }];
+    this.isLoadingResults = false;
+  }, err => {
+    console.log(err);
+    this.isLoadingResults = false;
+  });
+}
+```
+
+Call that function to the NgOnInit function.
+
+```js
+ngOnInit(): void {
+  this.getStatistic(this.label);
+}
+```
+
+Add a function to switch or reload statistic data by status value.
+
+```js
+changeStatus() {
+  this.isLoadingResults = true;
+  this.getStatistic(this.label);
+}
+```
+
+Next, open and edit `src/app/cases-stat/cases-stat.component.html` then replace all HTML tags with this implementation of an ng2-charts/Chart.js bar chart with statistic data.
+
+```html
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+        *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/cases']"><mat-icon>list</mat-icon></a>
+  </div>
+  <div class="button-row">
+    <mat-button-toggle-group name="status" aria-label="Status" [(ngModel)]="label" (ngModelChange)="changeStatus()">
+      <mat-button-toggle value="Positive">Positive</mat-button-toggle>
+      <mat-button-toggle value="Dead">Dead</mat-button-toggle>
+      <mat-button-toggle value="Recovered">Recovered</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <div style="display: block;">
+    <canvas baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="barChartType">
+    </canvas>
+  </div>
+</div>
+```
+
+Finally, give it a little style by modify `src/app/cases-stat/cases-stat.component.scss` with these.
+
+```css
+/* Structure */
+.example-container {
+  position: relative;
+  padding: 5px;
+}
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-flat-button {
+  margin: 5px;
+}
+```
+
+## Step #12. Deploy Application With Docker
+
+```Dockerfile
+# Image
+FROM node:alpine
+
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY package.json /app/package.json
+RUN yarn install
+RUN npm install -g @angular/cli
+
+# add app
+COPY . /app
+
+# start app
+CMD ng serve --host 0.0.0.0
+```
+

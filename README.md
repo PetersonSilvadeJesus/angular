@@ -33,12 +33,13 @@
 
 - [Reference Links](#reference-links)
 - [Framework](#framework)
+  + [About the Framework](#-about-the-framework)
   + [History](#-framework-history)
   + [Objective](#-framework-objective)
   + [Advantage](#-framework-advantage)
   + [Disadvantage](#-framework-disadvantage)
   + [AngularJS Life Cycle](#-angularjs-life-cycle)
-  + [Variable Interpolation](#variable-interpolation)
+  + [Variable Interpolation](#interpolation)
   + [Model Layer](#model-layer)
 - [Application Creation](/How-create-application.md)
 
@@ -54,6 +55,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 + [O que é o AngularJS e por que você precisa aprender?](https://blog.trainning.com.br/desenvolvimento/o-que-e-o-angularjs)
 + [Um overview sobre o framework Angular](https://blog.geekhunter.com.br/um-overview-sobre-o-framework-angular/)
 + [Por que o Angular é um framework tão poderoso?](https://www.totvs.com/blog/developers/angular/)
++ [Angular 9 Tutorial: Learn to Build a CRUD Angular App Quickly](https://www.djamware.com/post/5e435e84a8d0ef4300ffc5f6/angular-9-tutorial-learn-to-build-a-crud-angular-app-quickly)
 
 ### Framework
 
